@@ -5,7 +5,7 @@ import {useCart} from "../components/CartContext.jsx";
 
 export const Checkout = () => {
   const navigate = useNavigate();
-  const {cartItems, total, removeFromCart} = useCart();
+  const {cartItems, total, removeFromCart, clearCart} = useCart();
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [coupon, setCoupon] = useState('');
 
@@ -18,18 +18,17 @@ export const Checkout = () => {
 
         <div className="max-w-2xl mx-auto">
           <h1 className="text-white text-2xl font-bold mb-6">¡Gracias por preferirnos!</h1>
-
           <div className="bg-white p-6 rounded-lg shadow mb-6">
             <h2 className="text-lg font-semibold mb-4">Libros seleccionados</h2>
             <div className="space-y-4">
               {cartItems.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center py-2 border-b">
+                  <div className="flex justify-between items-center py-2 border-b" key={item.id}>
                     <div>
                       <p className="font-medium">{item.title}</p>
                       <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                      <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-medium">${(item.price * item.quantity)}</p>
                       <button className="text-red-500 hover:text-red-700"
                               onClick={() => removeFromCart(item.id)}>
                         <Trash2 size={20}/>
@@ -77,12 +76,17 @@ export const Checkout = () => {
             <div className="border-t pt-4">
               <div className="flex justify-between items-center text-xl font-bold">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${total}</span>
               </div>
             </div>
           </div>
 
-          <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 flex items-center justify-center gap-2">
+          <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 flex items-center justify-center gap-2"
+                  onClick={() => {
+                    alert('¡Pedido completado con éxito!');
+                    clearCart();
+                    navigate('/home');
+                  }}>
             <CreditCard size={20}/> Completar el pago
           </button>
         </div>
