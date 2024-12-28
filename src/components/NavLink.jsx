@@ -4,13 +4,12 @@ export const NavLink = ({icon, text, isCart = false}) => {
   const {toggleCart, cartItems} = useCart();
 
   return (
-      <a className="relative flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-600 cursor-pointer"
-         onClick={(event) => {
-           event.preventDefault();
-           if (isCart) {
-             toggleCart();
-           }
-         }}>
+      <button className="relative flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-600 cursor-pointer"
+              onClick={() => {
+                if (isCart) {
+                  toggleCart();
+                }
+              }}>
         {icon}
         {text && <span className="text-sm">{text}</span>}
         {isCart && cartItems.length > 0 &&
@@ -18,6 +17,6 @@ export const NavLink = ({icon, text, isCart = false}) => {
               {cartItems.length}
             </span>)
         }
-      </a>
+      </button>
   );
 }

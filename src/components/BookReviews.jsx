@@ -5,7 +5,7 @@ export const BookReviews = ({reviews}) => (
       <h2 className="text-white text-2xl font-bold mb-4">Reseñas de lectores</h2>
       <div className="space-y-4">
         {reviews.map(review => (
-            <div key={review.id} className="p-4 rounded-lg bg-neutral-200">
+            <div className="p-4 rounded-lg bg-neutral-200" key={review.id}>
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <p className="font-semibold">{review.userName}</p>

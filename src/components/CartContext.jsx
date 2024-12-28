@@ -13,6 +13,7 @@ export const CartProvider = ({children}) => {
       setFilteredBooks(books);
       return;
     }
+
     setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
   }
 
@@ -23,25 +24,29 @@ export const CartProvider = ({children}) => {
   }, [cartItems.length]);
 
   const addToCart = (book) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === book.id);
+    setCartItems(currentItems => {
+      const existingItem = currentItems.find(item => item.id === book.id);
       if (existingItem) {
-        return prevItems.map(item => item.id === book.id ? {...item, quantity: item.quantity + 1} : item);
+        return currentItems.map(item => item.id === book.id ?
+            {...item, quantity: item.quantity + 1} :
+            item);
       }
 
-      return [...prevItems, {...book, quantity: 1}];
+      return [...currentItems, {...book, quantity: 1}];
     });
     setIsOpen(true);
   }
 
   const removeFromCart = (bookId) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === bookId);
+    setCartItems(currentItems => {
+      const existingItem = currentItems.find(item => item.id === bookId);
       if (existingItem && existingItem.quantity > 1) {
-        return prevItems.map(item => item.id === bookId ? {...item, quantity: item.quantity - 1} : item);
+        return currentItems.map(item => item.id === bookId ?
+            {...item, quantity: item.quantity - 1} :
+            item);
       }
 
-      return prevItems.filter(item => item.id !== bookId);
+      return currentItems.filter(item => item.id !== bookId);
     });
   }
 
