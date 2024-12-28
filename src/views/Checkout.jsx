@@ -76,7 +76,7 @@ export const Checkout = () => {
             <div className="border-t pt-4">
               <div className="flex justify-between items-center text-xl font-bold">
                 <span>Total:</span>
-                <span>${total}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
             </div>
           </div>

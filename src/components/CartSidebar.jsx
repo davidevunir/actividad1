@@ -54,7 +54,7 @@ export const CartSidebar = () => {
         <div className="shrink-0 p-4 border-t bg-gray-100">
           <div className="flex justify-between items-center mb-4">
             <span className="text-lg font-semibold">Total:</span>
-            <span className="text-xl font-bold">${total}</span>
+            <span className="text-xl font-bold">${total.toFixed(2)}</span>
           </div>
           <button className="w-full py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700"
                   onClick={() => handleBuyClick()}>
