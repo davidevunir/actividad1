@@ -9,7 +9,7 @@ import {BookDetail} from "./views/BookDetail.jsx";
 import {CartSidebar} from "./components/CartSidebar.jsx";
 import {Welcome} from "./views/Welcome.jsx";
 
-function App() {
+export const App = () => {
   return (
       <BrowserRouter>
         <CartProvider>
@@ -30,5 +30,3 @@ function App() {
       </BrowserRouter>
   );
 }
-
-export default App;
