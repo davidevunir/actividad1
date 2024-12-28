@@ -7,7 +7,7 @@ export const Navbar = () => {
   return (
       <nav className="fixed top-0 left-0 w-full bg-neutral-800 text-white z-50 px-4 py-2">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl ml-2">Relatos de Papel</Link>
+          <Link to="/home" className="text-2xl ml-2">Relatos de Papel</Link>
           <div className="flex gap-4 items-center">
             <SearchBox/>
             <NavLink text="Géneros" icon={<SquareLibrary size={20}/>}/>

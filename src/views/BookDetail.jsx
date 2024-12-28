@@ -20,8 +20,8 @@ export const BookDetail = () => {
             <p className="text-gray-300 text-lg mb-6">
               Lo sentimos, no se ha encontrado el libro solicitado.
             </p>
-            <button className="mx-auto w-40 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600flex items-center justify-center py-3 shadow-2xl"
-                    onClick={() => navigate('/')}>
+            <button className="flex mx-auto w-40 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 items-center justify-center py-3 shadow-2xl"
+                    onClick={() => navigate(-1)}>
               <ArrowLeft size={20} className="mr-2"/> Regresar
             </button>
           </div>

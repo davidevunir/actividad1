@@ -13,9 +13,7 @@ export const CartProvider = ({children}) => {
       setFilteredBooks(books);
       return;
     }
-    setFilteredBooks(books.filter(book =>
-        book.title.toLowerCase().includes(text.toLowerCase())
-    ));
+    setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
   }
 
   useEffect(() => {
