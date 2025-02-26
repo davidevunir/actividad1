@@ -1,21 +1,25 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-import {books} from "../data/booksData.js";
+//import {books} from "../data/booksData.js";
+import {useGetBooksQuery} from "../service/api/books.js";
 
 const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState(books);
+  //const [filteredBooks, setFilteredBooks] = useState(books);
+  const { data: books, error, isLoading, refetch } = useGetBooksQuery();
 
-  const handleSearch = (text) => {
-    if (!text) {
-      setFilteredBooks(books);
-      return;
-    }
+  console.log(books, books);
 
-    setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
-  }
+  //const handleSearch = (text) => {
+  //  if (!text) {
+  //    setFilteredBooks(books);
+  //    return;
+  //  }
+
+  //  setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
+  //}
 
   useEffect(() => {
     if (cartItems.length === 0) {

@@ -8,25 +8,29 @@ import {Profile} from "./views/Profile.jsx";
 import {BookDetail} from "./views/BookDetail.jsx";
 import {CartSidebar} from "./components/CartSidebar.jsx";
 import {Welcome} from "./views/Welcome.jsx";
+import { Provider } from 'react-redux';
+import {store} from "./service/store"
 
 export const App = () => {
   return (
       <BrowserRouter>
-        <CartProvider>
-          <div className="min-h-screen flex flex-col">
-            <Navbar/>
-            <Routes>
-              <Route path="/" element={<Navigate to="/welcome" replace />} />
-              <Route path="/welcome" element={<Welcome/>}/>
-              <Route path="/home" element={<Home/>}/>
-              <Route path="/checkout" element={<Checkout/>}/>
-              <Route path="/profile" element={<Profile/>}/>
-              <Route path="/detail/:id" element={<BookDetail/>}/>
-            </Routes>
-            <CartSidebar/>
-            <Footer/>
-          </div>
-        </CartProvider>
+        <Provider store={store}>
+          <CartProvider>
+            <div className="min-h-screen flex flex-col">
+              <Navbar/>
+              <Routes>
+                <Route path="/" element={<Navigate to="/welcome" replace />} />
+                <Route path="/welcome" element={<Welcome/>}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/checkout" element={<Checkout/>}/>
+                <Route path="/profile" element={<Profile/>}/>
+                <Route path="/detail/:id" element={<BookDetail/>}/>
+              </Routes>
+              <CartSidebar/>
+              <Footer/>
+            </div>
+          </CartProvider>
+        </Provider>
       </BrowserRouter>
   );
 }
