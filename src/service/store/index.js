@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import {books} from "../api/books.js";
+import {baseApi} from "../api/index.js";
 
-export const index = configureStore({
+export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
+    [baseApi.reducerPath]: baseApi.reducer,
     [books.reducerPath]: books.reducer,
   },
-  // Adding the api middleware enables caching, invalidation, polling, etc.
   middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(books.middleware),
+      getDefaultMiddleware()
+      .concat(baseApi.middleware)
+      .concat(books.middleware),
 });
 
-// optional, but required for refetchOnFocus/refetchOnReconnect behaviors
-// see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
-setupListeners(index.dispatch);
+setupListeners(store.dispatch);

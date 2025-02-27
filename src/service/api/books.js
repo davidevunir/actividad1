@@ -36,6 +36,8 @@ const booksApi = baseApi.injectEndpoints({
   }),
 });
 
+export const books = booksApi;
+
 export const {
   useGetBooksQuery,
   useGetBookByIdQuery,

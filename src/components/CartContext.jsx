@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-//import {books} from "../data/booksData.js";
+
 import {useGetBooksQuery} from "../service/api/books.js";
 
 const CartContext = createContext();
@@ -8,9 +8,9 @@ export const CartProvider = ({children}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   //const [filteredBooks, setFilteredBooks] = useState(books);
-  const { data: books, error, isLoading, refetch } = useGetBooksQuery();
+  const { data: booksApi, error, isLoading, refetch } = useGetBooksQuery();
 
-  console.log(books, books);
+  console.log(booksApi, booksApi);
 
   //const handleSearch = (text) => {
   //  if (!text) {
@@ -73,8 +73,9 @@ export const CartProvider = ({children}) => {
         clearCart,
         toggleCart,
         total,
-        handleSearch,
-        filteredBooks}}>
+        //handleSearch,
+        //filteredBooks
+        }}>
         {children}
       </CartContext.Provider>
   );
