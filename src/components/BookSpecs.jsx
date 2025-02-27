@@ -20,9 +20,10 @@ export const BookSpecs = ({book}) => (
           </p>
         </div>
         <div className="space-y-2">
-          <p>
-            <span className="font-semibold">Categorías:</span> {book.categories.join(', ')}
-          </p>
+          {//<p>
+           // <span className="font-semibold">Categorías:</span> {book.categories.join(', ')}
+          //</p>
+          }
           <p>
             <span className="font-semibold">Stock disponible:</span> {book.stock} unidades
           </p>

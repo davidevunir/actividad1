@@ -16,7 +16,7 @@ export const BooksList = () => {
                       title={book.title}
                       author={book.author}
                       price={book.price}
-                      imageUrl={book.imageUrl}/>
+                      image_url={book.image_url}/>
             ))}
           </div>
         </div>

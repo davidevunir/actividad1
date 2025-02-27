@@ -1,13 +1,57 @@
-import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { useEffect, useState } from "react";
 import {ArrowLeft, CreditCard, Trash2} from 'lucide-react';
 import {useCart} from "../components/CartContext.jsx";
+import { useCreateOrderMutation } from "../service/api/orders.js";
 
 export const Checkout = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const {cartItems, total, removeFromCart, clearCart} = useCart();
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [coupon, setCoupon] = useState('');
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
+  useEffect(() => {
+      const storedData = localStorage.getItem("clientData");
+      if (storedData) {
+        const client = JSON.parse(storedData);
+        setUser(client);
+        console.log("Datos del cliente recuperados:", storedData);
+      } else {
+        navigate("/"); 
+        console.log("No se encontraron datos del cliente.");
+      }
+    }, []);
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      alert("El carrito está vacío.");
+      return;
+    }
+
+    const orderData = {
+      targetMethod: "POST",
+      body: {
+        idClient: user.id, // Cambia esto según el cliente real
+        detail: cartItems.map((item) => ({
+          idBook: item.id,
+          quantity: item.quantity,
+        })),
+      },
+    };
+
+    try {
+      const response = await createOrder(orderData).unwrap();
+      console.log("Orden creada:", response);
+      alert("¡Pedido completado con éxito!");
+      clearCart();
+      navigate("/home");
+    } catch (err) {
+      console.error("Error al procesar el pedido:", err);
+      alert("Hubo un problema con tu pedido.");
+    }
+  };
 
   return (
       <main className="flex-grow pt-20 container mx-auto px-4 pb-8">
@@ -21,21 +65,25 @@ export const Checkout = () => {
           <div className="bg-white p-6 rounded-lg shadow mb-6">
             <h2 className="text-lg font-semibold mb-4">Libros seleccionados</h2>
             <div className="space-y-4">
-              {cartItems.map((item) => (
-                  <div className="flex justify-between items-center py-2 border-b" key={item.id}>
-                    <div>
-                      <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <p className="font-medium">${(item.price * item.quantity)}</p>
-                      <button className="text-red-500 hover:text-red-700"
-                              onClick={() => removeFromCart(item.id)}>
-                        <Trash2 size={20}/>
-                      </button>
-                    </div>
-                  </div>
-              ))}
+            {cartItems.length > 0 ? (
+  cartItems.map((item) => (
+    <div className="flex justify-between items-center py-2 border-b" key={item.id}>
+      <div>
+        <p className="font-medium">{item.title}</p>
+        <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
+      </div>
+      <div className="flex items-center gap-4">
+        <p className="font-medium">${(item.price * item.quantity)}</p>
+        <button className="text-red-500 hover:text-red-700"
+                onClick={() => removeFromCart(item.id)}>
+          <Trash2 size={20}/>
+        </button>
+      </div>
+    </div>
+  ))
+) : (
+  <p className="text-gray-500 text-center">No hay libros en el carrito.</p>
+)}
             </div>
           </div>
 
@@ -81,14 +129,14 @@ export const Checkout = () => {
             </div>
           </div>
 
-          <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 flex items-center justify-center gap-2"
-                  onClick={() => {
-                    alert('¡Pedido completado con éxito!');
-                    clearCart();
-                    navigate('/home');
-                  }}>
-            <CreditCard size={20}/> Completar el pago
-          </button>
+          <button 
+      className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 
+        ${cartItems.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700 text-white'}`}
+      onClick={handleCheckout}
+      disabled={cartItems.length === 0 || isLoading}
+    >
+      {isLoading ? "Procesando..." : "Completar el pago"}
+    </button>
         </div>
       </main>
   );

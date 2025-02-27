@@ -31,7 +31,7 @@ export const CartSidebar = () => {
                 (<div className="space-y-4">
                       {cartItems.map((item) => (
                           <div className="flex gap-4 p-4 bg-gray-50 rounded-lg" key={item.id}>
-                            <img className="w-20 h-20 object-cover rounded" src={item.imageUrl} alt={item.title}/>
+                            <img className="w-20 h-20 object-cover rounded" src={item.image_url} alt={item.title}/>
                             <div className="flex-grow">
                               <div className="flex justify-between">
                                 <h3 className="font-semibold">{item.title}</h3>

@@ -22,6 +22,18 @@ const booksApi = baseApi.injectEndpoints({
     getBookById: builder.query({
       query: (id) => `books/${id}`,
     }),
+
+    fetchBooksById: builder.query({
+      query: ({ params, id }) => ({
+        url: `bs-catalog/bookstore/v1/books/${id}`,
+        method: "POST",
+        body: {
+          targetMethod: "GET",
+          queryParams: { ...params },
+        },
+      }),
+    }),
+
     // Add a new book
     addBook: builder.mutation({
       query: (book) => ({
@@ -52,6 +64,7 @@ export const books = booksApi;
 
 export const {
   useFetchBooksMutation,
+  useFetchBooksByIdQuery,
   useGetBookByIdQuery,
   useAddBookMutation,
   useUpdateBookMutation,

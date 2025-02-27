@@ -4,7 +4,7 @@ export const BookInfo = ({book, addToCart}) => (
     <div className="grid md:grid-cols-2">
       <div className="flex justify-center md:justify-start">
         <img className="w-72 h-auto object-cover rounded-lg shadow-lg"
-             src={book.imageUrl} alt={book.title}/>
+             src={book.image_url} alt={book.title}/>
       </div>
       <div className="space-y-4">
         <div>
@@ -17,13 +17,14 @@ export const BookInfo = ({book, addToCart}) => (
                         key={i} size={20}/>
               ))}
             </div>
-            <span className="text-gray-200">({book.reviews.length} reseñas)</span>
+            {//<span className="text-gray-200">({book.reviews.length} reseñas)</span
+            }
           </div>
         </div>
 
         <div>
           <p className="text-white text-3xl font-bold mb-4">${book.price}</p>
-          <p className="text-gray-200 mb-8">{book.description}</p>
+          <p className="text-gray-200 mb-8">{book.synopsis}</p>
           <div className="space-y-2">
             <button className="w-full py-4 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 flex items-center justify-center shadow-2xl"
                     onClick={() => addToCart(book)}>

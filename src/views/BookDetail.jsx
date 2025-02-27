@@ -5,12 +5,22 @@ import {ArrowLeft} from "lucide-react";
 import {BookInfo} from "../components/BookInfo.jsx";
 import {BookSpecs} from "../components/BookSpecs.jsx";
 import {BookReviews} from "../components/BookReviews.jsx";
+import { useFetchBooksByIdQuery } from "../service/api/books.js";
+import {useEffect, useState} from "react";
 
 export const BookDetail = () => {
   const {id} = useParams();
   const navigate = useNavigate();
   const {addToCart} = useCart();
-  const book = books.find(book => String(book.id) === String(id));
+  //const book = books.find(book => String(book.id) === String(1));
+  //console.log('Aqui',book);
+
+  const { data: book, error, isLoading } = useFetchBooksByIdQuery({ id });
+console.log('AQUiii',book);
+
+  if (isLoading) return <p>Cargando...</p>;
+  if (error) return <p>Error al cargar el libro</p>;
+  
 
   const NotFoundView = () => (
       <main className="flex-grow min-h-screen pt-24 container mx-auto px-4">
@@ -40,7 +50,8 @@ export const BookDetail = () => {
           <div className="space-y-8">
             <BookInfo book={book} addToCart={addToCart}/>
             <BookSpecs book={book}/>
-            <BookReviews reviews={book.reviews}/>
+            {//<BookReviews reviews={book.reviews}/>
+}
           </div>
         </div>
       </main>
