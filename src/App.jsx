@@ -9,12 +9,12 @@ import {BookDetail} from "./views/BookDetail.jsx";
 import {CartSidebar} from "./components/CartSidebar.jsx";
 import {Welcome} from "./views/Welcome.jsx";
 import { Provider } from 'react-redux';
-import {index as store} from "./service/store/index.js"
+import index from "./service/store/index.js"
 
 export const App = () => {
   return (
       <BrowserRouter>
-        <Provider store={store}>
+        <Provider store={index}>
           <CartProvider>
             <div className="min-h-screen flex flex-col">
               <Navbar/>

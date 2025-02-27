@@ -1,12 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { baseApi } from "../api/index.js";
-import createRootReducer from "../reducers";
+import { combineReducers } from "@reduxjs/toolkit";
 
-export const store = configureStore({
-  reducer: createRootReducer,
-  middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(baseApi.middleware),
+// Apis
+import { baseApi } from "../api/index";
+
+const createRootReducer = combineReducers({
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
-setupListeners(store.dispatch);
+export default createRootReducer;

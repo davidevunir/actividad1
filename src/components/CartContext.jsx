@@ -1,25 +1,37 @@
 import {createContext, useContext, useEffect, useState} from 'react';
 
-import {useGetBooksQuery} from "../service/api/books.js";
+import {useFetchBooksMutation} from "../service/api/books.js";
 
 const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  //const [filteredBooks, setFilteredBooks] = useState(books);
-  const { data: booksApi, error, isLoading, refetch } = useGetBooksQuery();
+  const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState(books);
+  const [useBooks] = useFetchBooksMutation();
 
-  console.log(booksApi, booksApi);
+  const handleSearch = (text) => {
+    if (!text) {
+      setFilteredBooks(books);
+      return;
+    }
 
-  //const handleSearch = (text) => {
-  //  if (!text) {
-  //    setFilteredBooks(books);
-  //    return;
-  //  }
+    setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
+  }
 
-  //  setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
-  //}
+  useEffect( () => {
+    async function fetchData() {
+      try {
+        const response = await useBooks().unwrap();
+        setBooks(response);
+        setFilteredBooks(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -73,8 +85,8 @@ export const CartProvider = ({children}) => {
         clearCart,
         toggleCart,
         total,
-        //handleSearch,
-        //filteredBooks
+        handleSearch,
+        filteredBooks
         }}>
         {children}
       </CartContext.Provider>

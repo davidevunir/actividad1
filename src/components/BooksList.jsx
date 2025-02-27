@@ -4,6 +4,8 @@ import {Card} from "./Card.jsx";
 export const BooksList = () => {
   const {isOpen, filteredBooks} = useCart();
 
+  console.log(filteredBooks);
+
   return (
       <div className={`container mx-auto px-4 py-8 transition-all duration-200 ease-in-out ${isOpen ? 'pr-96' : 'px-4'}`}>
         <div className="flex justify-center">
