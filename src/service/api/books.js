@@ -3,7 +3,7 @@ import { baseApi } from "./index.js";
 const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all books
-    fetchBooks: builder.mutation({
+    fetchBooks: builder.query({
       query: (params) => {
         return {
           url: "bs-catalog/bookstore/v1/books",
@@ -20,17 +20,12 @@ const booksApi = baseApi.injectEndpoints({
     }),
 
     // Get a single book by ID
-    getBookById: builder.query({
-      query: (id) => `books/${id}`,
-    }),
-
     fetchBooksById: builder.query({
-      query: ({ params, id }) => ({
+      query: (id) => ({
         url: `bs-catalog/bookstore/v1/books/${id}`,
         method: "POST",
         body: {
           targetMethod: "GET",
-          queryParams: { ...params },
         },
       }),
     }),
@@ -64,7 +59,7 @@ const booksApi = baseApi.injectEndpoints({
 export const books = booksApi;
 
 export const {
-  useFetchBooksMutation,
+  useFetchBooksQuery,
   useFetchBooksByIdQuery,
   useGetBookByIdQuery,
   useAddBookMutation,
