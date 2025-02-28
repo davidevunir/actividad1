@@ -1,31 +1,33 @@
-import {createContext, useContext, useEffect, useState} from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 
-import {useFetchBooksMutation} from "../service/api/books.js";
+import { useFetchBooksMutation } from "../service/api/books.js";
 
 const CartContext = createContext();
 
-export const CartProvider = ({children}) => {
+export const CartProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [books, setBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState(books);
   const [useBooks] = useFetchBooksMutation();
 
-  const handleSearch = (text) => {
+  const handleSearch = async (text) => {
     if (!text) {
-      setFilteredBooks(books);
       return;
     }
 
-    setFilteredBooks(books.filter(book => book.title.toLowerCase().includes(text.toLowerCase())));
-  }
+    try {
+      const response = await useBooks(text).unwrap();
+      setBooks(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     async function fetchData() {
       try {
         const response = await useBooks().unwrap();
         setBooks(response);
-        setFilteredBooks(response);
       } catch (error) {
         console.error(error);
       }
@@ -40,44 +42,48 @@ export const CartProvider = ({children}) => {
   }, [cartItems.length]);
 
   const addToCart = (book) => {
-    setCartItems(currentItems => {
-      const existingItem = currentItems.find(item => item.id === book.id);
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find((item) => item.id === book.id);
       if (existingItem) {
-        return currentItems.map(item => item.id === book.id ?
-            {...item, quantity: item.quantity + 1} :
-            item);
+        return currentItems.map((item) =>
+          item.id === book.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
       }
 
-      return [...currentItems, {...book, quantity: 1}];
+      return [...currentItems, { ...book, quantity: 1 }];
     });
     setIsOpen(true);
-  }
+  };
 
   const removeFromCart = (bookId) => {
-    setCartItems(currentItems => {
-      const existingItem = currentItems.find(item => item.id === bookId);
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find((item) => item.id === bookId);
       if (existingItem && existingItem.quantity > 1) {
-        return currentItems.map(item => item.id === bookId ?
-            {...item, quantity: item.quantity - 1} :
-            item);
+        return currentItems.map((item) =>
+          item.id === bookId ? { ...item, quantity: item.quantity - 1 } : item
+        );
       }
 
-      return currentItems.filter(item => item.id !== bookId);
+      return currentItems.filter((item) => item.id !== bookId);
     });
-  }
+  };
 
   const clearCart = () => {
     setCartItems([]);
-  }
+  };
 
   const toggleCart = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
-  const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
-      <CartContext.Provider value={{
+    <CartContext.Provider
+      value={{
         isOpen,
         cartItems,
         addToCart,
@@ -86,11 +92,12 @@ export const CartProvider = ({children}) => {
         toggleCart,
         total,
         handleSearch,
-        filteredBooks
-        }}>
-        {children}
-      </CartContext.Provider>
+        books,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   );
-}
+};
 
 export const useCart = () => useContext(CartContext);
