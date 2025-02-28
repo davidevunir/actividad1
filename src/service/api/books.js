@@ -4,14 +4,15 @@ const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all books
     fetchBooks: builder.mutation({
-      query: (title) => {
+      query: (param) => {
         return {
           url: "bs-catalog/bookstore/v1/books",
           method: "POST",
           body: {
             targetMethod: "GET",
             queryParams: {
-              title: title,
+              title: [param],
+              author: [param],
             },
           },
         };
@@ -20,15 +21,12 @@ const booksApi = baseApi.injectEndpoints({
 
     // Get a single book by ID
     bookById: builder.mutation({
-      query: ({ id, params }) => {
+      query: (id) => {
         return {
           url: `bs-catalog/bookstore/v1/books/${id}`,
           method: "POST",
           body: {
             targetMethod: "GET",
-            queryParams: {
-              ...params,
-            },
           },
         };
       },
