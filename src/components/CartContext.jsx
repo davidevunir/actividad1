@@ -1,14 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { useFetchBooksMutation } from "../service/api/books.js";
-
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [books, setBooks] = useState([]);
-  const [useBooks] = useFetchBooksMutation();
 
   const handleSearch = async (text) => {
     if (!text) {
@@ -22,18 +18,6 @@ export const CartProvider = ({ children }) => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await useBooks().unwrap();
-        setBooks(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -92,7 +76,6 @@ export const CartProvider = ({ children }) => {
         toggleCart,
         total,
         handleSearch,
-        books,
       }}
     >
       {children}
