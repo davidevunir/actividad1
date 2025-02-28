@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchClientMutation, useCreateClientMutation } from "../service/api/client.js";
+import {
+  useFetchClientMutation,
+  useCreateClientMutation,
+} from "../service/api/client.js";
 
 export const Welcome = () => {
   const navigate = useNavigate();
@@ -17,13 +20,12 @@ export const Welcome = () => {
     address: "",
     phone: "",
     active: true,
-    createdAt: "2025-01-28T00:00:00.000Z"
+    createdAt: "2025-01-28T00:00:00.000Z",
   });
 
-   
-    useEffect(() => {
-      setNewClient((prev) => ({ ...prev, email }));
-    }, [email]);
+  useEffect(() => {
+    setNewClient((prev) => ({ ...prev, email }));
+  }, [email]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,19 +35,17 @@ export const Welcome = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  
   const checkClient = async () => {
     if (!email) return alert("Ingresa un correo válido.");
-    
+
     try {
       const response = await fetchClient({
         targetMethod: "GET",
         queryParams: { email: [email] },
       }).unwrap();
-console.log('Aqui',response);
 
       if (response && response.length > 0) {
-        setClientData(response[0]); 
+        setClientData(response[0]);
         localStorage.setItem("clientData", JSON.stringify(response[0]));
         alert("Cliente encontrado. Redirigiendo...");
         navigate("/home");
@@ -60,7 +60,6 @@ console.log('Aqui',response);
     }
   };
 
-  
   const handleCreateClient = async () => {
     try {
       const response = await createClient({
@@ -69,12 +68,10 @@ console.log('Aqui',response);
       }).unwrap();
 
       setClientData(response);
-      console.log("Cliente creado:", response);
-      
+
       localStorage.setItem("clientData", JSON.stringify(response));
       alert("Cliente creado con éxito. Redirigiendo...");
       navigate("/home");
-      
     } catch (error) {
       console.error("Error al crear cliente:", error);
       alert("Hubo un problema al crear el cliente.");
@@ -115,13 +112,17 @@ console.log('Aqui',response);
                   type="text"
                   placeholder="Nombre"
                   className="w-full p-2 border rounded mb-2"
-                  onChange={(e) => setNewClient({ ...newClient, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setNewClient({ ...newClient, firstName: e.target.value })
+                  }
                 />
                 <input
                   type="text"
                   placeholder="Apellido"
                   className="w-full p-2 border rounded mb-2"
-                  onChange={(e) => setNewClient({ ...newClient, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setNewClient({ ...newClient, lastName: e.target.value })
+                  }
                 />
                 <input
                   type="email"
@@ -133,13 +134,17 @@ console.log('Aqui',response);
                   type="text"
                   placeholder="Dirección"
                   className="w-full p-2 border rounded mb-2"
-                  onChange={(e) => setNewClient({ ...newClient, address: e.target.value })}
+                  onChange={(e) =>
+                    setNewClient({ ...newClient, address: e.target.value })
+                  }
                 />
                 <input
                   type="text"
                   placeholder="Teléfono"
                   className="w-full p-2 border rounded mb-4"
-                  onChange={(e) => setNewClient({ ...newClient, phone: e.target.value })}
+                  onChange={(e) =>
+                    setNewClient({ ...newClient, phone: e.target.value })
+                  }
                 />
                 <button
                   onClick={handleCreateClient}
