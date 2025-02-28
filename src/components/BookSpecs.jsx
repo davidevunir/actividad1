@@ -3,7 +3,7 @@ export const BookSpecs = ({book}) => (
       <h2 className="text-white text-2xl font-bold mb-4">Especificaciones</h2>
       <div className="grid md:grid-cols-2 gap-4 p-6 rounded-lg bg-neutral-200">
         <div className="space-y-2">
-          <p>
+          {/*<p>
             <span className="font-semibold">Editorial:</span> {book.publisher}
           </p>
           <p>
@@ -14,7 +14,7 @@ export const BookSpecs = ({book}) => (
           </p>
           <p>
             <span className="font-semibold">Páginas:</span> {book.pages}
-          </p>
+          </p>*/}
           <p>
             <span className="font-semibold">ISBN:</span> {book.isbn}
           </p>
