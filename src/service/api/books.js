@@ -1,4 +1,4 @@
-import {baseApi} from "./index.js";
+import { baseApi } from "./index.js";
 
 const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -6,13 +6,14 @@ const booksApi = baseApi.injectEndpoints({
     fetchBooks: builder.mutation({
       query: (params) => {
         return {
-          url: 'bs-catalog/bookstore/v1/books',
+          url: "bs-catalog/bookstore/v1/books",
           method: "POST",
           body: {
             targetMethod: "GET",
             queryParams: {
-              ...params
-            }
+              title: [params],
+              // author: [params],
+            },
           },
         };
       },
@@ -37,8 +38,8 @@ const booksApi = baseApi.injectEndpoints({
     // Add a new book
     addBook: builder.mutation({
       query: (book) => ({
-        url: 'books',
-        method: 'POST',
+        url: "books",
+        method: "POST",
         body: book,
       }),
     }),
@@ -46,7 +47,7 @@ const booksApi = baseApi.injectEndpoints({
     updateBook: builder.mutation({
       query: ({ id, ...book }) => ({
         url: `books/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: book,
       }),
     }),
@@ -54,7 +55,7 @@ const booksApi = baseApi.injectEndpoints({
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `books/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
     }),
   }),

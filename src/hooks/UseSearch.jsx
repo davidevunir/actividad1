@@ -1,26 +1,26 @@
-import {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
-import {useCart} from '../components/CartContext.jsx';
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useCart } from "../components/CartContext.jsx";
 
 export const useSearch = () => {
-  const [inputValue, setInputValue] = useState('');
   const location = useLocation();
-  const {handleSearch} = useCart();
+  const [inputValue, setInputValue] = useState("");
+  const { setSearch } = useCart();
 
   const executeSearch = () => {
-    handleSearch(inputValue);
-  }
+    setSearch(inputValue);
+  };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      executeSearch();
+    if (e.key === "Enter") {
+      setSearch(inputValue);
     }
-  }
+  };
 
   useEffect(() => {
-    setInputValue('');
-    handleSearch('');
+    setInputValue("");
+    setSearch("");
   }, [location.pathname]);
 
-  return {inputValue, setInputValue, executeSearch, handleKeyDown}
-}
+  return { inputValue, setInputValue, executeSearch, handleKeyDown };
+};
